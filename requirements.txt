@@ -1,6 +1,8 @@
+
 fastapi
 uvicorn
 numpy
 pandas
-sentence-transformers
-torch
+onnxruntime
+tokenizers
+huggingface-hub
