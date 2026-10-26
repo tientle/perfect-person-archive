@@ -1,0 +1,607 @@
+
+/* ==================================
+   PERFECT PERSON ARCHIVE
+   ================================== */
+
+:root {
+  --pink: #e98bab;
+  --pink-dark: #b75b88;
+  --dark: #352630;
+  --cream: #fff9f6;
+  --muted: #776771;
+  --border: #efd3df;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--dark);
+  font-family: "DM Sans", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==================================
+   MAIN LAYOUT
+   ================================== */
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 90px 24px;
+}
+
+/* ==================================
+   HEADER & TYPOGRAPHY
+   ================================== */
+
+header {
+  text-align: center;
+}
+
+.eyebrow {
+  color: #ae6581;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Retro-inspired podcast title */
+h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(64px, 10vw, 112px);
+  font-weight: 900;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  margin: 24px 0 12px;
+  color: var(--pink);
+}
+
+h1 span {
+  color: var(--pink);
+}
+
+/* Small subtitle beneath the main title */
+.archive-subtitle {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--dark);
+  margin: 18px 0 24px;
+}
+
+header p {
+  max-width: 570px;
+  margin: 0 auto;
+  line-height: 1.7;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ==================================
+   SEARCH BAR
+   ================================== */
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e9cbd5;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 16px;
+  background: white;
+  color: var(--dark);
+}
+
+input::placeholder {
+  color: #a995a0;
+}
+
+input:focus {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+}
+
+button {
+  background: var(--pink);
+  color: var(--dark);
+  border: 0;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #df7298;
+}
+
+/* ==================================
+   SEARCH RESULTS
+   ================================== */
+
+#results {
+  margin-top: 40px;
+}
+
+/* Result cards */
+
+.result-card {
+  background: #fffafc;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.result-card:hover {
+  border-color: #dda8c0;
+}
+
+.result-top,
+.result-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.episode-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pink-dark);
+}
+
+.timestamp-badge {
+  background: #f8e5ee;
+  color: #a64d7a;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Keep result titles readable */
+.result-title {
+  font-family: "DM Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  margin: 14px 0;
+}
+
+.result-title a {
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.result-title a:hover {
+  color: var(--pink-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.result-preview {
+  color: #594753;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 18px 0;
+}
+
+/* Card footer */
+
+.result-footer {
+  border-top: 1px solid #f0dce5;
+  padding-top: 14px;
+  flex-wrap: wrap;
+}
+
+.similarity-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #9d6480;
+  font-size: 12px;
+}
+
+.similarity-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.similarity-tooltip:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.tooltip-text {
+  display: none;
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  width: 220px;
+  background: #4c3442;
+  color: white;
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.5;
+  z-index: 10;
+  box-shadow: 0 4px 12px #0002;
+}
+
+.similarity-tooltip:hover .tooltip-text,
+.similarity-tooltip:focus .tooltip-text {
+  display: block;
+}
+
+.listen-link {
+  color: var(--pink-dark);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.listen-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ==================================
+   ARCHIVE PROGRESS INDICATOR
+   ================================== */
+
+.archive-progress {
+  background: #fff5f9;
+  border: 1px solid #f2d6e3;
+  border-radius: 18px;
+  padding: 22px;
+  margin: 28px 0;
+}
+
+.progress-heading,
+.progress-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progress-heading {
+  color: #743b59;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.progress-status {
+  color: #a14f79;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.progress-numbers {
+  margin-top: 18px;
+  margin-bottom: 12px;
+  color: #4c2d3c;
+}
+
+.progress-numbers p {
+  margin: 0;
+}
+
+.progress-numbers strong {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+#progress-percentage {
+  color: #b44f81;
+  font-weight: 700;
+}
+
+.progress-track {
+  height: 10px;
+  background: #f2d9e5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: #d46b9d;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.progress-description {
+  color: #866a79;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 14px 0 0;
+}
+
+/* ==================================
+   FOOTER
+   ================================== */
+
+footer {
+  text-align: center;
+  margin-top: 80px;
+  color: #a18b96;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ==================================
+   RESPONSIVE DESIGN
+   ================================== */
+
+@media (max-width: 600px) {
+  .container {
+    padding: 60px 20px;
+  }
+
+  h1 {
+    font-size: clamp(48px, 13vw, 76px);
+    letter-spacing: -0.06em;
+  }
+
+  .archive-subtitle {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+  }
+
+  header p {
+    font-size: 15px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  .result-card {
+    padding: 18px;
+  }
+
+  .result-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .archive-progress {
+    padding: 18px;
+  }
+
+  .progress-status {
+    font-size: 9px;
+  }
+}
+
+
+/* ==================================
+   HOW I BUILT THIS PAGE
+   ================================== */
+
+.explainer-page {
+  max-width: 800px;
+}
+
+.explainer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 80px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #a75a7e;
+}
+
+.explainer-nav a,
+.explainer-page footer a {
+  color: #a75a7e;
+  text-decoration: none;
+}
+
+.explainer-nav a:hover,
+.explainer-page footer a:hover {
+  text-decoration: underline;
+}
+
+.explainer-header {
+  text-align: left;
+  margin-bottom: 80px;
+}
+
+.explainer-header h1 {
+  font-size: clamp(48px, 8vw, 86px);
+  line-height: 1.05;
+  margin: 20px 0 24px;
+}
+
+.explainer-header p {
+  margin: 0;
+  max-width: 620px;
+}
+
+.explainer-section {
+  padding: 36px 0;
+  border-top: 1px solid #efd3df;
+}
+
+.explainer-section h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: #b75b88;
+  margin: 0 0 22px;
+}
+
+.explainer-section > p {
+  color: #594753;
+  font-size: 16px;
+  line-height: 1.85;
+  margin: 0 0 18px;
+}
+
+.explainer-note,
+.explainer-example {
+  background: #fff0f6;
+  border: 1px solid #efd3df;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 24px 0;
+  color: #68475a;
+  line-height: 1.7;
+}
+
+.explainer-example strong {
+  color: #a64d7a;
+}
+
+.explainer-example p {
+  margin: 8px 0 0;
+}
+
+.explainer-page footer a {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+  .explainer-nav {
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+  }
+
+  .explainer-header {
+    margin-bottom: 50px;
+  }
+
+  .explainer-section {
+    padding: 28px 0;
+  }
+}
+
+.about-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: #b75b88;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.about-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* Shared navigation across all three pages */
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  margin-bottom: 64px;
+  border-bottom: 1px solid #efd3df;
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #49323e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-logo span {
+  color: #b75b88;
+  font-size: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-links a {
+  color: #776771;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: #b75b88;
+}
+
+.nav-links a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 600px) {
+  .site-nav {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+
+  .nav-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+  }
+}
+
+/* Sharp corners throughout the website */
+.result-card,
+.archive-progress,
+.explainer-note,
+.explainer-example,
+input,
+button {
+  border-radius: 0;
+}

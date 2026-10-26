@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import re
 
@@ -28,9 +27,18 @@ print(
 )
 
 
+
 def format_timestamp(seconds):
-    minutes, seconds = divmod(int(seconds), 60)
-    return f"{minutes:02d}:{seconds:02d}"
+    total_seconds = int(seconds)
+
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours > 0:
+        return f"{hours}:{minutes:02d}:{seconds:02d}"
+
+    return f"{minutes}:{seconds:02d}"
+
 
 
 def clean_preview(text, max_chars=300):

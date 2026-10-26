@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How it works: the product problem, NLP pipeline, engineering tradeoffs, and future evaluation of Perfect Person Archive.">
+  <title>How it works</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="how-it-works.css">
+</head>
+<body>
+  <main class="container case-page">
+    <!-- Site navigation -->
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-logo" href="index.html">
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Search</a>
+        <a href="how-it-works.html" aria-current="page">How the archive works</a>
+        <a href="about.html">About</a>
+      </div>
+    </nav>
+
+    <header class="case-hero">
+      <h1>How the archive works</h1>
+      <div class="case-meta"><span>Natural language processing</span><span>Information retrieval</span><span>Human-centered design</span></div>
+      <a class="case-button" href="index.html">Try searching the archive <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <section class="case-section" id="problem">
+      <p>Podcast episodes are often organized around titles and descriptions. Listeners, however, may remember a feeling, a question, or a particular exchange. That creates a gap between <strong>how content is organized</strong> and <strong>how people recall it</strong>.</p> That got me thinking: What if you could search a podcast by the conversation you remember, instead of the episode it came from? 
+
+      Listeners can spend less time hunting through episodes and more time revisiting meaningful moments. Creators are able to make older conversations discoverable beyond their original release date.
+
+      And what better way than to explore this using one of my favorite podcasts! </section>
+
+    <section class="case-section" id="solution">
+      <h2>Searching by meaning</h2>
+      <p>Perfect Person Archive is a fan-made semantic search engine. A listener can describe a situation in everyday language and get relevant transcript passages with links to the original moments.</p>
+      <div class="case-compare">
+        <article class="case-compare-card"><span class="case-pill">Keyword search</span><h3>“Feeling behind in life”</h3><p>Looks for the words in the query. Related conversations may be missed when they use different phrasing.</p></article>
+        <article class="case-compare-card case-compare-featured"><span class="case-pill">Semantic search · this project</span><h3>“Feeling behind in life”</h3><p>Can surface conversations about comparison, milestones, or uncertainty even without those exact words.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section" id="pipeline">
+      <h2>Using transcripts</h2>
+      <p>The system processes timestamped transcripts once, stores passage embeddings, and compares each new search query against them.</p>
+      <div class="case-stats" aria-label="Current index statistics">
+        <div><strong>225</strong><span>episodes identified</span></div>
+        <div><strong>54</strong><span>episodes indexed</span></div>
+        <div><strong>8,010</strong><span>text chunks</span></div>
+        <div><strong>384</strong><span>embedding dimensions</span></div>
+      </div>
+      <ol class="case-pipeline">
+        <li><span class="case-step">01</span><div><h3>Collect timestamped transcripts</h3><p>Start with YouTube episode metadata and available transcripts. Keep each passage's source episode and start time.</p></div></li>
+        <li><span class="case-step">02</span><div><h3>Split the transcript into overlapping passages</h3><p>Create approximately 150-word chunks, advancing 120 words at a time. The 30-word overlap helps retain context at boundaries.</p></div></li>
+        <li><span class="case-step">03</span><div><h3>Encode each passage</h3><p>Use <code>all-MiniLM-L6-v2</code> to create normalized, 384-dimensional sentence embeddings. Store the passage metadata in CSV and the vectors in NumPy.</p></div></li>
+        <li><span class="case-step">04</span><div><h3>Rank by semantic similarity</h3><p>Embed the query with the same model, compute dot products with the normalized stored vectors (equivalent to cosine similarity), and rank the matches.</p></div></li>
+        <li><span class="case-step">05</span><div><h3>Return the episode and timestamp</h3><p>Show a short excerpt, a similarity score, and a YouTube link. Currently, the timestamp points to the start of the retrieved chunk.</p></div></li>
+      </ol>
+      <div class="case-stack"><strong>Built with</strong><span>Python</span><span>pandas</span><span>NumPy</span><span>SentenceTransformers</span><span>FastAPI</span><span>HTML / CSS / JavaScript</span></div>
+    </section>
+
+    <section class="case-section" id="tradeoffs">
+      <h2>Technical tradeoffs</h2>
+      <p>Building a usable search experience required decisions about how to represent conversations, what to return, and how much infrastructure to introduce.</p>
+      <div class="case-tradeoffs">
+        <article class="case-tradeoff"><span class="case-tradeoff-num">DECISION 1</span><h3>Fixed-size vs. semantic chunking</h3><p>I experimented with detecting topic boundaries using changes in similarity between adjacent passages. But jokes and tangents can look like topic changes. I chose overlapping fixed-size chunks as a predictable baseline.</p><div class="case-choice"><strong>Chose:</strong> 150-word chunks, 30-word overlap</div></article>
+        <article class="case-tradeoff"><span class="case-tradeoff-num">DECISION 2</span><h3>NumPy vs. a vector database</h3><p>With 8,010 embeddings, a NumPy matrix keeps retrieval straightforward and easy to inspect. A dedicated vector index may make sense if the corpus or traffic grows substantially.</p><div class="case-choice"><strong>Chose:</strong> normalized embeddings + matrix dot products</div></article>
+        <article class="case-tradeoff"><span class="case-tradeoff-num">DECISION 3</span><h3>Retrieval vs. generated answers</h3><p>Rather than generating summaries, the first version links people back to what was actually said. A future RAG feature could synthesize multiple passages, but it would need careful citation and grounding checks.</p><div class="case-choice"><strong>Chose:</strong> source-first semantic search</div></article>
+        <article class="case-tradeoff"><span class="case-tradeoff-num">DECISION 4</span><h3>Relevance vs. variety</h3><p>Returning only the highest-scoring chunks could crowd the results with multiple excerpts from one episode. I currently show at most one result per episode, trading some recall for broader discovery.</p><div class="case-choice"><strong>Chose:</strong> one top-ranked passage per episode</div></article>
+      </div>
+      <!-- <div class="case-demo">
+        <div><span class="case-demo-kicker">INTERACTIVE DETAIL</span><h3>Why do chunks overlap?</h3><p>Imagine a topic crossing the boundary between two passages. Toggle the overlap to see how a shared region helps preserve context.</p></div>
+        <button class="case-toggle" type="button" id="overlap-toggle" aria-pressed="true">Overlap: on</button>
+        <div class="case-chunk-viz" aria-label="Illustration of overlapping transcript chunks">
+          <div class="case-chunk-row"><span>Chunk A</span><div class="case-chunk-bar"><span class="case-chunk-a">Beginning of conversation</span><span class="case-shared">Shared context</span></div></div>
+          <div class="case-chunk-row"><span>Chunk B</span><div class="case-chunk-bar case-chunk-b"><span class="case-shared">Shared context</span><span class="case-chunk-tail">Conversation continues</span></div></div>
+        </div>
+        <p class="case-small" id="overlap-description" aria-live="polite">With overlap, the ending of Chunk A appears again at the start of Chunk B. Diagram is illustrative, not to scale.</p>
+      </div> -->
+    </section>
+
+    <section class="case-section" id="next">
+      <h2>Future improvements</h2>
+      <div class="case-roadmap">
+        <div><span class="case-priority">HIGH PRIORITY</span><h3>Expand coverage</h3><p>Only 54 of 225 episodes are currently indexed. Missing transcripts limit what can be found.</p></div>
+        <div><span class="case-priority">HIGH PRIORITY</span><h3>Evaluate retrieval</h3><p>Create a human-labeled query set and compare ranking and chunking strategies.</p></div>
+        <div><span class="case-priority">HIGH PRIORITY</span><h3>Improve timestamp precision</h3><p>Align links with the most relevant sentence instead of the chunk start.</p></div>
+        <div><span class="case-priority case-priority-later">LATER</span><h3>Explore hybrid search</h3><p>Combine lexical matching with embeddings for exact names, memorable phrases, and broader concepts.</p></div>
+        <div><span class="case-priority case-priority-later">LATER</span><h3>Experiment with grounded RAG</h3><p>Offer cited cross-episode summaries without replacing the original podcast moments.</p></div>
+      </div>
+      <p class="case-small">Other limitations include transcription errors, context lost at chunk boundaries, and the possibility that semantic similarity produces plausible but irrelevant matches.</p>
+    </section>
+
+    <footer class="case-footer"> Made by: Tien Le | Github:  </footer>
+  </main>
+  <script src="how-it-works.js" defer></script>
+</body>
+</html>

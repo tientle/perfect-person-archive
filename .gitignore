@@ -1,0 +1,21 @@
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+notebooks/
+.DS_Store
+frontend/how-it-works-old.html
+
+# Downloaded podcast transcripts
+data/transcripts/
+data/chunks.json
+
+# Generated embeddings
+data/embeddings.npy
+
+# Local configuration
+.env
+
+data/missing_episodes.csv
+data/transcript_download_log.csv

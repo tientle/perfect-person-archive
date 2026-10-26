@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,700,50,1;9..144,900,50,1&display=swap" rel="stylesheet">
+
+
+  <title>Perfect Person Archive</title>
+
+  <!-- Connect CSS -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <main class="container">
+
+    <header>
+
+    <!-- Site navigation -->
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-logo" href="index.html">
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html" aria-current="page">Search</a>
+        <a href="how-it-works.html">How the archive works</a>
+        <a href="about.html">About</a>
+      </div>
+    </nav>
+      <h1>
+        Perfect Person <span>Archive</span>
+      </h1>
+
+      <p>
+        Remember the advice, not the episode?
+        Search through conversations from Perfect Person.
+      </p>
+
+    </header>
+
+
+<section class="archive-progress">
+  <div class="progress-heading">
+    <span>The archive is a growing work in progress!</span>
+  </div>
+
+  <div class="progress-numbers">
+    <p>
+      <strong id="indexed-count">—</strong>
+      / <span id="total-count">—</span> episodes
+    </p>
+    <span id="progress-percentage">—%</span>
+  </div>
+
+  <div
+    class="progress-track"
+    role="progressbar"
+    aria-label="Episodes indexed"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="0"
+    id="archive-progress-bar"
+  >
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <p class="progress-description">
+    I'm still in the process of collecting episodes! Search results currently
+    cover only the conversations included in the archive.
+  </p>
+</section>
+
+
+    <!-- Search interface -->
+    <form id="search-form">
+      <input
+        id="search-input"
+        type="search"
+        placeholder="e.g. advice about friendship problems..."
+        aria-label="Search podcast advice"
+        required
+      >
+
+      <button type="submit">
+        search
+      </button>
+    </form>
+
+    <!-- Search results appear here -->
+    <section
+      id="results"
+      aria-live="polite"
+      aria-label="Search results"
+    ></section>
+
+    <footer>
+      <p>
+        Made with ♡ by a Perfect Person listener.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Connect our JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
