@@ -3,7 +3,7 @@ const input = document.querySelector("#search-input");
 const results = document.querySelector("#results");
 
 // Our local FastAPI server
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://perfect-person-archive.onrender.com";
 
 // Format a numerical similarity score for display
 function formatSimilarity(score) {
