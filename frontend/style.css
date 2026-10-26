@@ -8,6 +8,7 @@
   --pink-dark: #b75b88;
   --dark: #352630;
   --cream: #fff9f6;
+  --white: #fffff;
   --muted: #776771;
   --border: #efd3df;
 }
@@ -18,7 +19,7 @@
 
 body {
   margin: 0;
-  background: var(--cream);
+  background: var(--white);
   color: var(--dark);
   font-family: "DM Sans", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
