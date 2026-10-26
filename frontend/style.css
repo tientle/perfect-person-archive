@@ -653,3 +653,51 @@ button {
     animation: none;
   }
 }
+
+
+/* About the podcast */
+
+.podcast-about {
+  margin-top: 72px;
+  padding: 30px 0;
+  border-top: 1px solid #efd3df;
+  border-bottom: 1px solid #efd3df;
+}
+
+.podcast-about-label {
+  margin: 0 0 12px;
+  color: #b75b88;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.podcast-about h2 {
+  margin: 0 0 18px;
+  color: #49323e;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.podcast-about p:not(.podcast-about-label) {
+  max-width: 680px;
+  color: #776771;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.podcast-about-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #b75b88;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.podcast-about-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
