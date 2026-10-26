@@ -168,35 +168,31 @@ results.appendChild(loading);
   }
 });
 
-// Load archive progress from FastAPI
-async function loadArchiveProgress() {
-  try {
-    const response = await fetch(`${API_URL}/stats`);
 
-    if (!response.ok) {
-      throw new Error("Could not load archive stats");
-    }
+ // Load archive progress locally (no API request needed)
+function loadArchiveProgress() {
+  const indexedEpisodes = 54;
+  const totalEpisodes = 225;
 
-    const stats = await response.json();
+  const percentage = Math.round(
+    (indexedEpisodes / totalEpisodes) * 100
+  );
 
-    document.getElementById("indexed-count").textContent =
-      stats.indexed_episodes;
+  document.getElementById("indexed-count").textContent =
+    indexedEpisodes;
 
-    document.getElementById("total-count").textContent =
-      stats.total_episodes;
+  document.getElementById("total-count").textContent =
+    totalEpisodes;
 
-    document.getElementById("progress-percentage").textContent =
-      `${stats.percentage}%`;
+  document.getElementById("progress-percentage").textContent =
+    `${percentage}%`;
 
-    document.getElementById("progress-fill").style.width =
-      `${stats.percentage}%`;
+  document.getElementById("progress-fill").style.width =
+    `${percentage}%`;
 
-    document.getElementById("archive-progress-bar")
-      .setAttribute("aria-valuenow", stats.percentage);
-
-  } catch (error) {
-    console.error("Error loading archive progress:", error);
-  }
+  document.getElementById("archive-progress-bar")
+    .setAttribute("aria-valuenow", percentage);
 }
 
 document.addEventListener("DOMContentLoaded", loadArchiveProgress);
+
