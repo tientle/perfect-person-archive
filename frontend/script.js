@@ -114,9 +114,29 @@ form.addEventListener("submit", async (event) => {
 
   results.replaceChildren();
 
-  const status = document.createElement("p");
-  status.textContent = "Searching the archive... ♡";
-  results.appendChild(status);
+
+const loading = document.createElement("div");
+loading.className = "search-loading";
+loading.setAttribute("role", "status");
+
+const spinner = document.createElement("span");
+spinner.className = "loading-spinner";
+spinner.setAttribute("aria-hidden", "true");
+
+const message = document.createElement("div");
+
+const loadingTitle = document.createElement("p");
+loadingTitle.className = "loading-title";
+loadingTitle.textContent = "Searching the archive... ♡";
+
+const loadingSubtitle = document.createElement("p");
+loadingSubtitle.className = "loading-subtitle";
+loadingSubtitle.textContent = "This can take a moment!";
+
+message.append(loadingTitle, loadingSubtitle);
+loading.append(spinner, message);
+results.appendChild(loading);
+
 
   try {
     const response = await fetch(
