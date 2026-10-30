@@ -10,6 +10,18 @@ function formatSimilarity(score) {
   return Number(score).toFixed(3);
 }
 
+
+function getEpisodeNumber(title) {
+  const match = title.match(/Perfect Person Ep\.?\s*(\d+)/i);
+
+  if (match) {
+    return `Episode ${match[1]}`;
+  }
+
+  return "Perfect Person";
+}
+
+
 // Create a result card for one podcast match
 function createResultCard(match) {
   const card = document.createElement("article");
@@ -44,7 +56,7 @@ function createResultCard(match) {
   titleLink.href = youtubeUrl.toString();
   titleLink.target = "_blank";
   titleLink.rel = "noopener noreferrer";
-  titleLink.textContent = match.episode;
+ titleLink.textContent = getEpisodeNumber(match.episode);
 
   const arrow = document.createElement("span");
   arrow.textContent = " ↗";
